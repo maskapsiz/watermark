@@ -63,11 +63,21 @@ public class WatermarkServiceImpl implements WatermarkService{
     }
 
     /**
-     * Creates watermark for given document.
+     * Creates watermark for given document
      * @param document
      */
     private void createWatermark(Document document) {
+        wait5Seconds();
         String watermark = document.toString();
         document.setWatermark(watermark);
+    }
+
+    //wait 10 Seconds for creating watermark
+    private void wait5Seconds(){
+        try {
+            Thread.sleep(1000 * 5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -13,11 +13,13 @@ import org.junit.Test;
  */
 public class WatermarkServiceTest {
 
-    WatermarkService watermarkService;
-    Book book1, book2;
-    String book1Watermark, book2Watermark;
-    Journal journal1;
-    String journal1Watermark;
+    private WatermarkService watermarkService;
+    private Book book1;
+    private Book book2;
+    private String book1Watermark;
+    private String book2Watermark;
+    private Journal journal1;
+    private String journal1Watermark;
 
     @Before
     public void setUp() throws Exception {
@@ -54,7 +56,6 @@ public class WatermarkServiceTest {
 
         //Book2
         ticket = watermarkService.process(book2);
-        bookWithWatermark = null;
         while(true){
             bookWithWatermark = (Book) watermarkService.retrieveDocument(ticket);
             if(bookWithWatermark != null) break;
@@ -63,7 +64,7 @@ public class WatermarkServiceTest {
 
         //Journal
         ticket = watermarkService.process(journal1);
-        Journal journalWithWatermark = null;
+        Journal journalWithWatermark;
         while (true) {
             journalWithWatermark = (Journal) watermarkService.retrieveDocument(ticket);
             if(journal1Watermark != null) break;

@@ -1,13 +1,8 @@
 package com.watermark;
 
-import com.watermark.entity.Book;
-import com.watermark.entity.Document;
-import com.watermark.entity.Journal;
-import com.watermark.service.WatermarkService;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.junit.Assert;
 
 /**
  * Unit test for simple App.
