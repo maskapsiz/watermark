@@ -1,5 +1,4 @@
-# watermark
-Watermark Assignment
+# Watermark Assignment
 
-src folder includes source code
-test folder incudes junit and testng tests
+src folder includes source code 
+source code, junit and testng tests
