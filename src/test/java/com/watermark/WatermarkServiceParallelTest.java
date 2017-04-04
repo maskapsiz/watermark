@@ -7,6 +7,7 @@ import com.watermark.service.WatermarkServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -17,21 +18,33 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class WatermarkServiceParallelTest {
 
     private WatermarkService watermarkService;
-    private Book book1;
     private final Queue<String> queue = new ConcurrentLinkedQueue<>();
 
     @BeforeTest
     public void setUp() throws Exception {
         watermarkService = WatermarkServiceImpl.getInstance();
-        book1 = new Book();
-        book1.setTitle("The Dark Code");
-        book1.setAuthor("Bruce Wayne");
-        book1.setTopic("Science");
     }
 
-    @Test(threadPoolSize = 3, invocationCount = 500,  timeOut = 10000)
-    public void testProcess() throws Exception {
-        String token = watermarkService.process(book1);
+    @DataProvider(name = "testBooks")
+    public Object[][] testBooks() {
+        return new Object[][] {
+                { "Book1 Topic", "Book1 Title", "Book1 Author" },
+                { "Book2 Topic", "Book2 Title", "Book2 Author" },
+                { "Book3 Topic", "Book3 Title", "Book3 Author" },
+                { "Book4 Topic", "Book4 Title", "Book4 Author" },
+                { "Book5 Topic", "Book5 Title", "Book5 Author" },
+        };
+    }
+
+
+    @Test(dataProvider = "testBooks", threadPoolSize = 5, invocationCount = 100,  timeOut = 10000)
+    public void testCreateWatermarkTask(String topic, String title, String author) throws Exception {
+        Book book = new Book();
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setTopic(topic);
+
+        String token = watermarkService.createWatermarkTask(book);
         queue.add(token);
     }
 
@@ -39,10 +52,14 @@ public class WatermarkServiceParallelTest {
     @Test(threadPoolSize = 100, invocationCount = 500,  timeOut = 10000)
     public void testRetrieveDocument() throws Exception {
         String ticket = queue.poll();
-        Document document;
+
+        //poll service until watermark exists
         while(true){
-            document = watermarkService.retrieveDocument(ticket);
-            if(document!=null && document.getWatermark().equals(document.toString())) break;
+            Document document = watermarkService.retrieveDocument(ticket);
+            //if document watermark exists break
+            if(document!=null && document.getWatermark().equals(document.toString())) {
+                break;
+            }
         }
 
     }
@@ -50,7 +67,7 @@ public class WatermarkServiceParallelTest {
     @AfterClass
     public void afterClass(){
         int size = queue.size();
-        Assert.assertEquals(0, size);
+        Assert.assertEquals(size, 0);
     }
 
 

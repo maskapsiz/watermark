@@ -1,5 +1,6 @@
 package com.watermark;
 
+import com.watermark.entity.Document;
 import com.watermark.exception.WatermarkException;
 import com.watermark.exception.WatermarkExceptionConstants;
 import com.watermark.service.WatermarkService;
@@ -21,7 +22,18 @@ public class WatermarkExceptionTest {
         WatermarkService watermarkService = WatermarkServiceImpl.getInstance();
         thrown.expect(WatermarkException.class);
         thrown.expectMessage(WatermarkExceptionConstants.DOCUMENT_NULL_EXCEPTION);
-        watermarkService.process(null);
+        watermarkService.createWatermarkTask(null);
+    }
+
+    @Test
+    public void testAlreadyWatermarkedDocumentException() throws Exception {
+        WatermarkService watermarkService = WatermarkServiceImpl.getInstance();
+        thrown.expect(WatermarkException.class);
+        thrown.expectMessage(WatermarkExceptionConstants.DOCUMENT_ALREADY_WATERMARKED);
+        Document document = new Document();
+        document.setWatermark("watermark");
+        watermarkService.createWatermarkTask(document);
+
     }
 
     @Test

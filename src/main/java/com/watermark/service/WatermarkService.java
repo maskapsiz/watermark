@@ -7,7 +7,7 @@ import com.watermark.entity.Document;
  */
 public interface WatermarkService {
 
-    String process(Document document);
+    String createWatermarkTask(Document document);
 
     Document retrieveDocument(String ticket);
 

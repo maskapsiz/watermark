@@ -46,7 +46,7 @@ public class WatermarkServiceTest {
     @Test
     public void testSingleWatermark() throws Exception {
         //Book1
-        String ticket = watermarkService.process(book1);
+        String ticket = watermarkService.createWatermarkTask(book1);
         Book bookWithWatermark;
         while(true){
             bookWithWatermark = (Book) watermarkService.retrieveDocument(ticket);
@@ -55,7 +55,7 @@ public class WatermarkServiceTest {
         Assert.assertEquals(book1Watermark, bookWithWatermark.getWatermark());
 
         //Book2
-        ticket = watermarkService.process(book2);
+        ticket = watermarkService.createWatermarkTask(book2);
         while(true){
             bookWithWatermark = (Book) watermarkService.retrieveDocument(ticket);
             if(bookWithWatermark != null) break;
@@ -63,7 +63,7 @@ public class WatermarkServiceTest {
         Assert.assertEquals(book2Watermark, bookWithWatermark.getWatermark());
 
         //Journal
-        ticket = watermarkService.process(journal1);
+        ticket = watermarkService.createWatermarkTask(journal1);
         Journal journalWithWatermark;
         while (true) {
             journalWithWatermark = (Journal) watermarkService.retrieveDocument(ticket);
