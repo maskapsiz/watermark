@@ -24,7 +24,6 @@ public class WatermarkServiceTest {
     @Before
     public void setUp() throws Exception {
         watermarkService = WatermarkServiceImpl.getInstance();
-
         book1 = new Book();
         book1.setTitle("The Dark Code");
         book1.setAuthor("Bruce Wayne");
