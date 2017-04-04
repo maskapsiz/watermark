@@ -67,8 +67,8 @@ public class WatermarkServiceTest {
         Journal journalWithWatermark;
         while (true) {
             journalWithWatermark = (Journal) watermarkService.retrieveDocument(ticket);
-            if(journal1Watermark != null) break;
-            Assert.assertEquals(journal1Watermark, journalWithWatermark.getWatermark());
+            if(journalWithWatermark != null) break;
         }
+        Assert.assertEquals(journal1Watermark, journalWithWatermark.getWatermark());
     }
 }
